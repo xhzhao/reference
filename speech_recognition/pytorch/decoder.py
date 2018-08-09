@@ -48,7 +48,7 @@ class Decoder(object):
         return strings
 
     def _convert_to_string(self, sequence, sizes):
-        return ''.join([self.int_to_char[sequence[i]] for i in range(sizes)])
+        return ''.join([self.int_to_char[int(sequence[i])] for i in range(sizes)])
 
     def process_strings(self, sequences, remove_repetitions=False):
         """
@@ -69,7 +69,7 @@ class Decoder(object):
     def process_string(self, remove_repetitions, sequence):
         string = ''
         for i, char in enumerate(sequence):
-            if char != self.int_to_char[self.blank_index]:
+            if char != self.int_to_char[int(self.blank_index)]:
                 # if this char is a repetition and remove_repetitions=true,
                 # skip.
                 if remove_repetitions and i != 0 and char == sequence[i - 1]:

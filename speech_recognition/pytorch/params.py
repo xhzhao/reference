@@ -16,7 +16,7 @@ noise_min  = 0.0 # minimum noise level to sample from (1.0 means all noise and n
 noise_max  = 0.5 # maximum noise level to sample from (1.0 means all noise and no original signal)
 
 # Platform parameters
-cuda = True
+cuda = False
 
 # Dataset location
 labels_path    = '../labels.json' #Contains all characters for prediction

@@ -7,13 +7,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from torch.nn.utils.rnn import PackedSequence
-
+import irnn_pytorch as irnn
 supported_rnns = {
     'lstm': nn.LSTM,
     'rnn': nn.RNN,
-    'gru': nn.GRU
+    'gru': irnn.GRU
 }
-
+print("supported_rnns = ", supported_rnns)
 supported_rnns_inv = dict((v, k) for k, v in supported_rnns.items())
 
 class SequenceWise(nn.Module):
@@ -81,7 +81,7 @@ class BatchRNN(nn.Module):
         self.bias = bias
 
 
-        if rnn_type == nn.GRU or rnn_type == nn.LSTM:
+        if rnn_type == nn.GRU or irnn.GRU  or rnn_type == nn.LSTM:
           self.rnn = rnn_type(input_size=input_size, hidden_size=hidden_size,
                               bidirectional=bidirectional, bias=bias)
         else:
@@ -184,6 +184,7 @@ class DeepSpeech(nn.Module):
                          bn_bias    = bn_bias)
           rnns.append(('%d' % (x + 1), rnn))
         self.rnns = nn.Sequential(OrderedDict(rnns))
+
         fully_connected = nn.Sequential(
             nn.BatchNorm1d(rnn_hidden_size),
             nn.Linear(rnn_hidden_size, num_classes, bias=False)
